@@ -3,25 +3,33 @@
     <main class="paper">
       <header class="header">
         <h1 class="title">Task scheduler</h1>
-        <input type="text" class="search-input" placeholder="Search..">
+        <input type="text" class="search-input" placeholder="Search.." v-model="tasksFilter">
       </header>
       <section class="section">
         <form class="new-task__form">
-          <input type="text" class="new-task__input" placeholder="New task description">
-          <button class="new-task__add-button">Add task</button>
+          <input type="text" class="new-task__input" placeholder="New task description" v-model="description" @keyup.enter="addTask">
+          <button class="new-task__add-button" @click.prevent.stop="addTask">Add task</button>
         </form>
         <div>
           <ul class="tasks__list">
-            <Task />
+            <Task
+                    v-for="task in filteredTasks"
+                    :key="task.id"
+                    :task="task"
+                    @toggle-done-status="toggleDoneStatus"
+                    @toggle-favorite-status="toggleFavoriteStatus"
+                    @toggle-remove-status="toggleRemoveStatus"
+                    @update-task="updateTask"
+            />
           </ul>
         </div>
       </section>
-      <footer class="footer">
+      <footer class="footer" @click="checkAllTasksDone">
         <div class="done-tasks__checkbox">
           <svg version="1.1" viewBox="0 0 27 27" style="width: 25px; height: 25px; display: block;">
             <g>
               <circle cx="12.5" cy="12.5"
-                      fill="#3f4d5c" height="25"
+                      :fill="allTasksDoneCheckbox" height="25"
                       r="12.5" stroke="#56d26c"
                       stroke-width="0" x="1" y="1">
 
@@ -45,6 +53,88 @@
     name: 'HelloWorld',
     props: {
       msg: String,
+    },
+    data: function () {
+      return {
+        tasks: [
+          {
+            "id": "xjh",
+            "message": "Успешно пройти React-интенсив компании Lectrum",
+            "completed": false,
+            "favorite": true
+          },
+          {
+            "id": "xjr",
+            "message": "Взять автограф у Джареда Лето",
+            "completed": false,
+            "favorite": false
+          },
+          {
+            "id": "xrh",
+            "message": "Зарегестрировать бабушку в Твиче",
+            "completed": false,
+            "favorite": false
+          },
+          {
+            "id": "rjh",
+            "message": "Записать собаку на груминг",
+            "completed": false,
+            "favorite": false
+          },
+          {
+            "id": "xph",
+            "message": "Научиться играть на барабанах",
+            "completed": true,
+            "favorite": false
+          }
+        ],
+        description: '',
+        tasksFilter: '',
+      }
+    },
+    computed: {
+      allTasksDoneCheckbox: function () {
+        return this.areTasksDone() ? '#56d26c' : '#3f4d5c';
+      },
+      filteredTasks: function () {
+        return this.tasks.filter(({ message }) => message.toLowerCase().includes(this.tasksFilter));
+      }
+    },
+    methods: {
+      addTask: function () {
+        if (this.description) {
+          this.tasks.push({
+            completed: false,
+            created: Date.now(),
+            favorite: false,
+            id: Math.random(),
+            message: this.description,
+            modified: null,
+          });
+          this.description = '';
+        }
+      },
+      updateTask: function (id, message, cb) {
+        this.tasks = this.tasks.map((task) => task.id === id ? {...task, message: message } : task);
+        if (cb) {
+          cb();
+        }
+      },
+      toggleDoneStatus: function (id) {
+        this.tasks = this.tasks.map((task) => task.id === id ? {...task, completed: !task.completed} : task);
+      },
+      toggleFavoriteStatus: function (id) {
+        this.tasks = this.tasks.map((task) => task.id === id ? {...task, favorite: !task.favorite} : task);
+      },
+      toggleRemoveStatus: function (id) {
+        this.tasks = this.tasks.filter((task) => task.id !== id );
+      },
+      checkAllTasksDone: function () {
+        this.tasks = this.tasks.map((task) => ({...task, completed: true}));
+      },
+      areTasksDone: function () {
+        return this.tasks.every(task => task.completed);
+      },
     },
     components: {
       Task,

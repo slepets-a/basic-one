@@ -6,26 +6,38 @@
                 color1 = '#56d26c'
                 color2 = '#3f4d5c'
                 color3 = '#fcfefc'
-                v-bind:checked = false
+                v-bind:checked = 'task.completed'
+                @toggle-done-status="$emit('toggle-done-status', task.id)"
             />
-            <span>Message</span>
+            <input
+                    autofocus
+                    class="task__editable-desc"
+                    type="text" v-if="this.isEditable"
+                    v-model="message"
+                    @keyup.esc="toggleEditStatus"
+                    @keyup.enter="$emit('update-task', task.id, message, toggleEditStatus)"
+            >
+            <span v-else>{{ task.message }}</span>
         </div>
         <div class="task__actions">
             <Star
                     class = "setPriority"
                     color1 = '#ffc868'
                     color2 = '#3f4d5c'
-                    v-bind:checked = false
+                    v-bind:checked = 'task.favorite'
+                    @toggle-favorite-status="$emit('toggle-favorite-status', task.id)"
             />
             <Edit
                     class = "edit"
                     color1 = '#56d26c'
                     color2 = '#3f4d5c'
+                    @toggle-edit-status="toggleEditStatus"
             />
             <Remove
                     class = "remove"
                     color1 = '#ff5358'
                     color2 = '#3f4d5c'
+                    @toggle-remove-status="$emit('toggle-remove-status', task.id)"
             />
         </div>
     </li>
@@ -38,12 +50,29 @@ import Edit from './Edit.vue';
 import Remove from './Remove.vue';
 export default {
   name: 'Task',
+  props: [
+    'task',
+  ],
+  mounted: function () {
+    this.message = this.task.message;
+  },
+  data: function () {
+    return {
+      isEditable: false,
+      message: 'Loading..',
+    }
+  },
   components: {
     Checkbox,
     Star,
     Edit,
     Remove,
-  }
+  },
+  methods: {
+    toggleEditStatus: function () {
+      this.isEditable = !this.isEditable;
+    }
+  },
 };
 </script>
 
@@ -65,6 +94,7 @@ export default {
 
         svg {
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         &__content {
@@ -97,6 +127,11 @@ export default {
             .edit {
                 margin-right: .5rem;
             }
+        }
+
+        &__editable-desc {
+            width: 100%;
+            height: 42px;
         }
     }
     .completed {

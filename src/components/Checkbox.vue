@@ -1,5 +1,5 @@
 <template>
-    <svg class="checkbox" version="1.1" viewBox="0 0 27 27" width="25" height="25">
+    <svg class="checkbox" version="1.1" viewBox="0 0 27 27" width="25" height="25" @click="$emit('toggle-done-status')">
         <g>
             <circle
                     cx = '12.5'
