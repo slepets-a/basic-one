@@ -50,24 +50,29 @@ import Edit from './Edit.vue';
 import Remove from './Remove.vue';
 export default {
   name: 'Task',
-  props: [
-    'task',
-  ],
-  mounted: function () {
-    this.message = this.task.message;
-  },
-  data: function () {
-    return {
-      isEditable: false,
-      message: 'Loading..',
-    }
-  },
+
   components: {
     Checkbox,
     Star,
     Edit,
     Remove,
   },
+
+  props: [
+    'task',
+  ],
+
+  data: function () {
+    return {
+      isEditable: false,
+      message: 'Loading..',
+    }
+  },
+
+  mounted: function () {
+    this.message = this.task.message;
+  },
+
   methods: {
     toggleEditStatus: function () {
       this.isEditable = !this.isEditable;

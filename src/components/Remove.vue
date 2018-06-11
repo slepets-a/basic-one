@@ -12,6 +12,7 @@
 <script>
   export default {
     name: 'Checkbox',
+
     props: [
       'disabled',
       'hover',
@@ -19,6 +20,7 @@
       'color2',
       'color3',
     ],
+
     computed: {
       fill: function () {
         return this.disabled ? this.color3 : this.hover ? this.color1 : this.color2;

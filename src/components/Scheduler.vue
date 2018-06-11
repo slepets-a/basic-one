@@ -3,11 +3,11 @@
     <main class="paper">
       <header class="header">
         <h1 class="title">Task scheduler</h1>
-        <input type="text" class="search-input" placeholder="Search.." v-model="tasksFilter">
+        <input v-model="tasksFilter" type="text" class="search-input" placeholder="Search.." >
       </header>
       <section class="section">
         <form class="new-task__form">
-          <input type="text" class="new-task__input" placeholder="New task description" v-model="description" @keyup.enter="addTask">
+          <input v-model="description" type="text" class="new-task__input" placeholder="New task description" @keyup.enter="addTask">
           <button class="new-task__add-button" @click.prevent.stop="addTask">Add task</button>
         </form>
         <div>
@@ -28,14 +28,23 @@
         <div class="done-tasks__checkbox">
           <svg version="1.1" viewBox="0 0 27 27" style="width: 25px; height: 25px; display: block;">
             <g>
-              <circle cx="12.5" cy="12.5"
-                      :fill="allTasksDoneCheckbox" height="25"
-                      r="12.5" stroke="#56d26c"
-                      stroke-width="0" x="1" y="1">
-
+              <circle cx="12.5"
+                      cy="12.5"
+                      :fill="allTasksDoneCheckbox"
+                      height="25"
+                      r="12.5"
+                      stroke="#56d26c"
+                      stroke-width="0"
+                      x="1"
+                      y="1"
+              >
               </circle>
-              <polyline fill="none" points="6,12.5 11,18 20,7"
-                        stroke="#3f4d5c" stroke-width="2"></polyline>
+              <polyline fill="none"
+                        points="6,12.5 11,18 20,7"
+                        stroke="#3f4d5c"
+                        stroke-width="2"
+              >
+              </polyline>
             </g>
           </svg>
         </div>
@@ -51,9 +60,15 @@
   import Task from './Task.vue';
   export default {
     name: 'HelloWorld',
+
+    components: {
+      Task,
+    },
+
     props: {
       msg: String,
     },
+
     data: function () {
       return {
         tasks: [
@@ -92,14 +107,17 @@
         tasksFilter: '',
       }
     },
+
     computed: {
       allTasksDoneCheckbox: function () {
         return this.areTasksDone() ? '#56d26c' : '#3f4d5c';
       },
+
       filteredTasks: function () {
         return this.tasks.filter(({ message }) => message.toLowerCase().includes(this.tasksFilter));
       }
     },
+
     methods: {
       addTask: function () {
         if (this.description) {
@@ -114,31 +132,34 @@
           this.description = '';
         }
       },
+
       updateTask: function (id, message, cb) {
         this.tasks = this.tasks.map((task) => task.id === id ? {...task, message: message } : task);
         if (cb) {
           cb();
         }
       },
+
       toggleDoneStatus: function (id) {
         this.tasks = this.tasks.map((task) => task.id === id ? {...task, completed: !task.completed} : task);
       },
+
       toggleFavoriteStatus: function (id) {
         this.tasks = this.tasks.map((task) => task.id === id ? {...task, favorite: !task.favorite} : task);
       },
+
       toggleRemoveStatus: function (id) {
         this.tasks = this.tasks.filter((task) => task.id !== id );
       },
+
       checkAllTasksDone: function () {
         this.tasks = this.tasks.map((task) => ({...task, completed: true}));
       },
+
       areTasksDone: function () {
         return this.tasks.every(task => task.completed);
       },
     },
-    components: {
-      Task,
-    }
   };
 </script>
 

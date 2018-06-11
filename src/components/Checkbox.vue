@@ -25,16 +25,19 @@
 <script>
   export default {
     name: 'Checkbox',
+
     props: [
       'checked',
       'color1',
       'color2',
       'color3',
     ],
+
     computed: {
       fill: function () {
         return this.checked ? this.color1 : this.color2;
       },
+
       checkBoxFill: function () {
         return this.checked ? this.color3 : this.color2;
       }
