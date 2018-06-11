@@ -6,7 +6,7 @@
                 color1 = '#56d26c'
                 color2 = '#3f4d5c'
                 color3 = '#fcfefc'
-                v-bind:checked = 'task.completed'
+                :checked = 'task.completed'
                 @toggle-done-status="$emit('toggle-done-status', task.id)"
             />
             <input
@@ -24,7 +24,7 @@
                     class = "setPriority"
                     color1 = '#ffc868'
                     color2 = '#3f4d5c'
-                    v-bind:checked = 'task.favorite'
+                    :checked = 'task.favorite'
                     @toggle-favorite-status="$emit('toggle-favorite-status', task.id)"
             />
             <Edit

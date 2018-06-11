@@ -4,10 +4,10 @@
             <circle
                     cx = '12.5'
                     cy = '12.5'
-                    v-bind:fill = 'fill'
+                    :fill = 'fill'
                     height = '25'
                     r = '12.5'
-                    v-bind:stroke = 'color1'
+                    :stroke = 'color1'
                     strokeWidth = '0'
                     x = '1'
                     y = '1'
@@ -15,7 +15,7 @@
             <polyline
                     fill = 'none'
                     points = '6,12.5 11,18 20,7'
-                    v-bind:stroke = 'checkBoxFill'
+                    :stroke = 'checkBoxFill'
                     strokeWidth = '2'
             />
         </g>
