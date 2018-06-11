@@ -10,12 +10,12 @@ import Scheduler from './components/Scheduler.vue';
 export default {
   name: 'ToDoList',
   components: {
-      Scheduler,
+    Scheduler,
   },
 };
 </script>
 
-<style>
+<style lang="scss">
   :root {
     --cubic1: cubic-bezier(0.55,0.085,0.68,0.53);
     --cubic2: cubic-bezier(0.6,-0.28,0.735,0.045);
@@ -38,6 +38,14 @@ export default {
     --rgbaColor1: rgba(0,0,0,0.1);
     --rgbaColor2: rgba(0,0,0,0.2);
   }
+
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+  * {
+    font-family: roboto mono,roboto,system-ui;
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
     padding: 0;
@@ -45,6 +53,7 @@ export default {
     font-variant-ligatures: none;
     min-width: 37.5rem;
   }
+
   input {
     -webkit-appearance: none;
     background-color: var(--paletteColor3);
@@ -73,6 +82,7 @@ export default {
       }
     }
   }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
